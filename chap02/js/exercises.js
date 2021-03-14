@@ -85,7 +85,7 @@
 
 // document.addEventListener('DOMContentLoaded', fizzBuzz);
 
-// SOLUTION FROM WRTITER
+// SOLUTION FROM WRITER
 // for (let n = 1; n <= 100; n++) {
 //   let output = '';
 //   if (n % 3 == 0 && n % 5 == 0) {

@@ -19,7 +19,6 @@
   // -> 3
 */
 
-// SOLUTION
 // let str = '#######';
 // for (let index = 0; index < str.length; index++) {
 //   console.log(str.slice(0, index + 1));
@@ -33,6 +32,12 @@
 // }
 
 // document.addEventListener('DOMContentLoaded', printTriangle); // DOM ready function
+
+// SOLUTION FROM WRITER
+// for (let line = '#'; line.length < 8; line += '#') {
+//   console.log(line);
+// }
+
 // -------------------------------------------------------------------------------------------
 
 /*
@@ -79,6 +84,18 @@
 // }
 
 // document.addEventListener('DOMContentLoaded', fizzBuzz);
+
+// SOLUTION FROM WRTITER
+// for (let n = 1; n <= 100; n++) {
+//   let output = '';
+//   if (n % 3 == 0 && n % 5 == 0) {
+//     output = 'FizzBuzz';
+//   } else {
+//     if (n % 3 == 0) output = 'Fizz';
+//     if (n % 5 == 0) output = 'Buzz';
+//   }
+//   console.log(output || n);
+// }
 // -------------------------------------------------------------------------------------------
 
 /*
@@ -103,31 +120,46 @@
   of the given width and height.
 */
 
-function printHash() {
-  let str = '';
-  let size = 20;
-  for (let i = 0; i < size; i++) {
-    if (i % 2 == 0) {
-      for (let j = 0; j < size; j++) {
-        if (j % 2 == 0) {
-          str += ' ';
-        } else {
-          str += '#';
-        }
-      }
-    } else {
-      for (let k = 0; k < size; k++) {
-        if (k % 2 == 0) {
-          str += '#';
-        } else {
-          str += ' ';
-        }
-      }
-    }
-    str += '\n';
-  }
+// function printHash() {
+//   let str = '';
+//   let size = 8;
+//   for (let i = 0; i < size; i++) {
+//     if (i % 2 == 0) {
+//       for (let j = 0; j < size; j++) {
+//         if (j % 2 == 0) {
+//           str += ' ';
+//         } else {
+//           str += '#';
+//         }
+//       }
+//     } else {
+//       for (let k = 0; k < size; k++) {
+//         if (k % 2 == 0) {
+//           str += '#';
+//         } else {
+//           str += ' ';
+//         }
+//       }
+//     }
+//     str += '\n';
+//   }
 
-  console.log(str);
-  // console.log(0 % 2 == 0);
+//   console.log(str);
+//   // console.log(0 % 2 == 0);
+// }
+// document.addEventListener('DOMContentLoaded', printHash);
+
+// SOLUTION FROM WRITER
+let size = 8;
+let board = '';
+for (let y = 0; y < size; y++) {
+  for (let x = 0; x < size; x++) {
+    if ((x + y) % 2 == 0) {
+      board += ' ';
+    } else {
+      board += '#';
+    }
+  }
+  board += '\n';
 }
-document.addEventListener('DOMContentLoaded', printHash);
+console.log(board);

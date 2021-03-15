@@ -126,12 +126,70 @@
 // When an arrow function has no parameters at all,
 // its parameter list is just an empty
 
-const power = (base, exponent) => {
-    let result = 1;
-    for (let i = 0; i < exponent; i++) {
-        result *= base;
-    }
-    return result;
-};
+// const horn = () => {
+//     console.log('Toot');
+// };
 
-console.log(power(4, 2));
+// horn();
+// ---------------------------------------------------------------------------
+
+// THE CALL STACK
+// function greet(who) {
+//     console.log(`Hello ${who}`);
+// }
+
+// greet('Harry');
+// console.log('Bye');
+
+// function chicken() {
+//     return egg();
+// }
+
+// function egg() {
+//     return chicken();
+// }
+
+// console.log(chicken() + ' came first');
+// ---------------------------------------------------------------------------
+
+// OPTIONAL ARGUMENTS
+// function square(num) {
+//     return num * num;
+// }
+
+// Pass too many arguments
+// console.log(square(4, true, 'abcd'));
+
+// function power(base, exponent) {
+//     let result = 1;
+//     for (let count = 0; count < exponent; count++) {
+//         result *= base;
+//     }
+//     return result;
+// }
+
+// Pass too few arguments
+// console.log(power(4));
+
+// function minus(a, b) {
+//     if (b === undefined) {
+//         return -a;
+//     }
+//     return a - b;
+// }
+
+// console.log(minus(10));
+// console.log(minus(12, 8));
+
+// function square(base, exponent = 2) {
+//     let result = 1;
+//     for (let i = 0; i < exponent; i++) {
+//         result *= base;
+//     }
+//     return result;
+// }
+
+// console.log(square(4, 2));
+// console.log(square(4));
+
+console.log('a', 'b', 122);

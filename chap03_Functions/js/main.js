@@ -229,6 +229,13 @@
  * at function creation time.
  */
 
+/**
+ * A closure is the combination of a function and the lexical environment
+ * within which that function was declared.
+ * This environment consists of any local variables that were in-scope
+ * at the time the closure was created.
+ */
+
 // 1. Lexical scoping
 // Example:
 // (Note: Nested function have access to variables declared in their outer scope)
@@ -257,14 +264,14 @@
 // myFunc();
 
 // Example 2:
-function makeAdder(x) {
-    return function (y) {
-        return x + y;
-    };
-}
+// function makeAdder(x) {
+//     return function (y) {
+//         return x + y;
+//     };
+// }
 
-let add5 = makeAdder(5);
-let add10 = makeAdder(10);
+// let add5 = makeAdder(5);
+// let add10 = makeAdder(10);
 
-console.log(add5(2)); // -> 7
-console.log(add10(2)); // -> 12
+// console.log(add5(2)); // -> 7
+// console.log(add10(2)); // -> 12

@@ -275,3 +275,82 @@
 
 // console.log(add5(2)); // -> 7
 // console.log(add10(2)); // -> 12
+// ---------------------------------------------------------------------------
+
+// RECURSION
+// function power(base, exponent) {
+//     if (exponent == 0) {
+//         return 1;
+//     } else {
+//         return base * power(base, exponent - 1);
+//     }
+// }
+
+// console.log(power(2, 3));
+// ---------------------------------------------------------------------------
+
+// GROWING FUNCTIONS
+// function printFarmInvetory(cows, chickens) {
+//     let cowsOutput = '';
+//     if (cows > 99) {
+//         cowsOutput = `${cows} Cows`;
+//     } else if (cows > 9) {
+//         cowsOutput = `0${cows} Cows`;
+//     } else {
+//         cowsOutput = `00${cows} Cows`;
+//     }
+
+//     let chickensOutput = '';
+//     if (chickens > 99) {
+//         chickensOutput = `${chickens} Chickens`;
+//     } else if (chickens > 9) {
+//         chickensOutput = `0${chickens} Chickens`;
+//     } else {
+//         chickensOutput = `00${chickens} Chickens`;
+//     }
+
+//     console.log(cowsOutput);
+//     console.log(chickensOutput);
+// }
+// -------------------------------------------
+
+// function printFarmInvetory(cows, chickens) {
+//     let cowsString = String(cows);
+//     while (cowsString.length < 3) {
+//         cowsString = '0' + cowsString;
+//     }
+//     console.log(`${cowsString} Cows`);
+
+//     let chickensString = String(chickens);
+//     while (chickensString.length < 3) {
+//         chickensString = '0' + chickensString;
+//     }
+//     console.log(`${chickensString} Chickens`);
+// }
+
+// printFarmInvetory(7, 11);
+// printFarmInvetory(100, 11);
+// printFarmInvetory(10, 11);
+// printFarmInvetory(1, 99);
+
+// -------------------------------------------
+// function zeroPad(number, width) {
+//     let str = String(number);
+//     while (str.length < width) {
+//         str = '0' + str;
+//     }
+//     return str;
+// }
+
+// function printFarmInvetory(cows, chickens, pigs) {
+//     console.log(`${zeroPad(cows, 3)} Cows`);
+//     console.log(`${zeroPad(chickens, 3)} Chickens`);
+//     console.log(`${zeroPad(pigs, 3)} Pigs`);
+// }
+
+// printFarmInvetory(1, 99, 100);
+// ---------------------------------------------------------------------------
+
+// SUMMARY
+// let h = (a) => a % 3;
+// console.log(h(4));

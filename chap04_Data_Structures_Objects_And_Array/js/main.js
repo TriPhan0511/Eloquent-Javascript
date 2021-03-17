@@ -33,20 +33,104 @@
 
 // OBJECTS
 let day1 = {
-    squirrel: true,
+    squirrel: false,
     events: ['work', 'touched tree', 'pizza', 'running'],
 };
 
-//
-// console.log(day1.squirrel); // true
-// console.log(day1['squirrel']); // true
+// console.log(day1); // {squirrel: false, events: ["pizza", "running"]}
+// console.log(day1.squirrel); // false
+// console.log(day1['events']); // ['pizza', 'running']
+// console.log(day1.events[1]); // running
 
-// console.log(day1.events); // ['work', 'touched tree', 'pizza', 'running']
-// console.log(day1['events']); // ['work', 'touched tree', 'pizza', 'running']
+// console.log(day1.wolf); // undefined
+// day1.wolf = false;
+// console.log(day1.wolf); // false
 
-// console.log(day1.events[0]); // work
+// let description = {
+//     work: 'Went to work',
+//     'touched tree': 'Touched a tree',
+// };
 
-console.log(day1.wolf); // undefined
+// console.log(description.work); // 'Went to work'
+// console.log(description['touched tree']); // 'Touched a tree'
+// console.log(description['work']);
+// description['work'] = 'go out';
+// console.log(description['work']);
+// ------------------------------------------------------------------
 
-day1.wolf = false;
-console.log(day1.wolf); // false
+// THE UNARY delete OPERATOR: when applied to an object property,
+// will remove the named property from the object.
+// let anObject = {
+//     left: 1,
+//     right: 2,
+// };
+
+// console.log(anObject); // {left: 1, right: 2}
+// console.log(anObject.right); // 2
+// delete anObject['right'];
+// console.log(anObject.right); // undefined
+// ------------------------------------------------------------------
+
+// THE BINARY in OPERATOR: when appiled to a string and an object,
+// tells you whether that object has a property with that name.
+// let info = {
+//     name: 'Tri Phan',
+//     isDeveloper: true,
+//     email: 'phanphutri@gmail.com',
+// };
+
+// let prop = 'name';
+// let prop2 = 'age';
+// console.log(prop in info); // true
+// console.log(prop2 in info); // false
+
+// if ('email' in info && info.email === 'phanphutri@gmail.com') {
+//     console.log('Confirm');
+// } else {
+//     console.log('No email address');
+// }
+// ---------------------------------------------------------
+
+// let anObject = {
+//     left: undefined,
+//     right: 'hello world',
+// };
+
+// console.log('left' in anObject); // true
+// console.log('right' in anObject); // true
+// delete anObject.right;
+// console.log('right' in anObject); // false
+// ------------------------------------------------------------------
+
+// TO FIND OUT WHAT PROPERTIES AN OBJECT HAS,
+// YOU CAN USE THE Object.keys() FUNCTION.
+// console.log(Object.keys({ x: 0, y: 0, z: 2 })); // ['x', 'y', 'z']
+// -----------------------------------------------
+
+// let info = {
+//     name: 'Tri Phan',
+//     isDeveloper: true,
+//     age: 37,
+//     family: ['parents', 'younger sister', 'wife', 'son'],
+// };
+
+// let infoKeys = Object.keys(info); // ['name', 'isDeveloper', 'age', 'family']
+// for (let i = 0; i < infoKeys.length; i++) {
+//     let key = infoKeys[i];
+//     console.log(info[key]);
+// }
+
+/**
+ * // ->
+ * Tri Phan
+ * true
+ * 37
+ * ['parents', 'younger sister', 'wife', 'son']
+ */
+// ------------------------------------------------------------------
+
+// There's an Object.assign() function
+// that copies all properties from one object into another object
+let objectA = { a: 1, b: 2 };
+Object.assign(objectA, { b: 3, c: 4 });
+console.log(objectA); // {a: 1, b: 3, c: 4}

@@ -131,6 +131,59 @@ let day1 = {
 
 // There's an Object.assign() function
 // that copies all properties from one object into another object
-let objectA = { a: 1, b: 2 };
-Object.assign(objectA, { b: 3, c: 4 });
-console.log(objectA); // {a: 1, b: 3, c: 4}
+// let objectA = { a: 1, b: 2 };
+// Object.assign(objectA, { b: 3, c: 4 });
+// console.log(objectA); // {a: 1, b: 3, c: 4}
+// ------------------------------------------------------------------
+
+// ARRAYS, THEN, ARE JUST A KIND OF OBJECT SPECIALIZED FOR STORING SEQUENCES OF THINGS.
+// console.log(typeof []); // object
+
+// let journal = [
+//     {
+//         events: ['work', 'touched tree', 'pizza', 'running', 'television'],
+//         squirrel: false,
+//     },
+//     {
+//         events: [
+//             'work',
+//             'ice cream',
+//             'cauliflower',
+//             'lasagna',
+//             'touched tree',
+//             'brushed teeth',
+//         ],
+//         squirrel: false,
+//     },
+//     {
+//         events: ['weekend', 'cycling', 'break', 'peanuts', 'beer'],
+//         squirrel: true,
+//     },
+// ];
+// ------------------------------------------------------------------
+
+// IMMUTABILITY
+// With objects, there is a difference between having two references to the same object
+// and having two different objects that contain the same properties.
+
+// let obj1 = { value: 10 };
+// let obj2 = obj1;
+// let obj3 = { value: 10 };
+
+// console.log(obj1 == obj2); // true
+// console.log(obj1 == obj3); // false
+
+// obj1.value = 15;
+// console.log(obj2.value); // 15
+// console.log(obj3.value); // 10
+
+// obj2.value = 300;
+// console.log(obj1.value); // 300
+// ----------------------------------------------
+
+const score = { visistors: 0, home: 0 };
+
+score.visistors = 1; // This is okay
+console.log(score); // {visitors: 1, home: 0}
+
+// score = { visistors: 1, home: 1 }; // This isn't allowed

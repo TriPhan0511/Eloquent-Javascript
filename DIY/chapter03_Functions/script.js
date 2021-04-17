@@ -303,9 +303,333 @@
  * 6. THE CALL STACK
  */
 
-function greet(who) {
-  console.log('Hello ' + who);
+// function greet(who) {
+//   console.log('Hello ' + who);
+// }
+
+// greet('Harry');
+// console.log('Bye');
+// -----------------------------------------------------------------------------------------
+
+/**
+ * 7. OPTIONAL ARGUMENT
+ */
+
+// Example:
+
+// function square(x) {
+//   return x * x;
+// }
+
+// console.log(square(4, true, 'aloha')); // 16
+
+/**
+ * Javascript is extremely broad-minded about the number of arguments you
+ * pass to a function. If you pass to many, the extra ones are ignored.
+ * If you pass too few, the missing parameters get assigned the value undefined.
+ *
+ * The downside of this is that it is possible - likely, even - that you'll
+ * accidentally pass the wrong number of arguments to functions. And no one
+ * will tell you aout it.
+ *
+ * The upside is that this behavior can be used to allow a function to be
+ * called with different numbers of arguments.
+ * For example, this minus function tries to imitate the - operator by
+ * acting on either one or two arguments.
+ */
+
+// function minus(a, b) {
+//   if (b === undefined) {
+//     return -a;
+//   } else {
+//     return a - b;
+//   }
+// }
+
+// console.log(minus(10)); // -10
+// console.log(minus(10, 2)); // 8
+
+/**
+ * If you write an = operator after a parameter, followed by an expression, the
+ * value of that expression will replace the argument when it is not given.
+ *
+ * For example, this version of power makes its second argument optional. If you
+ * don't provide it or pass the value undefined, it will default to two, and the
+ * function wil behave like square.
+ */
+
+// function power(base, exponent = 2) {
+//   let result = 1;
+//   for (let count = 0; count < exponent; count++) {
+//     result *= base;
+//   }
+//   return result;
+// }
+
+// console.log(power(4, 3)); // 64
+// console.log(power(4)); // 16
+// console.log(power(4, undefined)); // 16
+// -----------------------------------------------------------------------------------------
+
+/**
+ * 8. CLOSURE
+ *
+ * The ability to treat functions as values, combined with the fact that local bindings
+ * are re-created every time a function is called, brings up an interesting question.
+ * What happens to local bindings when the function call that created them is no longer active?
+ *
+ * The following code shows an example of this. It defines a function, wrapValue, that
+ * creates a local binding. It then returns a function that accesses and returns this
+ * local binding.
+ */
+
+// function wrapValue(n) {
+//   let local = n;
+//   return () => local;
+// }
+
+// let wrap1 = wrapValue(1);
+// let wrap2 = wrapValue(2);
+
+// console.log(wrap1()); // 1
+// console.log(wrap2()); // 2
+
+/**
+ * This is allowed and works as you'd hope - both instances of a local binding can
+ * still be accessed. This situation is a good demonstration of the fact that local
+ * bindings are created anew for every call, and different calls can't trample on
+ * one another's local binding.
+ */
+
+/**
+ * This feature - being able to reference a specific instance of a local binding
+ * in an enclosing scope - is called closure. A function that references bindings
+ * from local scopes around it is called a closure. This behavior not only frees you
+ * from having worry about lifetimes of bindings but also makes it possible to use
+ * function values in some creative ways.
+ */
+
+/**
+ * With a slightly change, we can turn the previous example into a way to
+ * create functions that multiply by an arbitrary amount.
+ */
+
+// function multiplier(factor) {
+//   return (number) => number * factor;
+// }
+
+// let twice = multiplier(2);
+// console.log(twice(5)); // 10
+// console.log(twice(10)); // 20
+
+/**
+ * The explicit local binding from the wrapValue example isn't really needed
+ * since a parameter is itself a local binding.
+ */
+
+/**
+ * A good mental model is to think of function values as containing both the code
+ * in their body and the environment in which they are created, not the environment
+ * in which it is called.
+ */
+
+/**
+ * In the example, multiplier is called and creates an environment in which
+ * its factor parameter is bound to 2. The function value it returns, which is
+ * stored in twice, remembers this environment. So when that is called, it
+ * multiplies its argument by 2.
+ */
+// -----------------------------------------------------------------------------------------
+
+/**
+ * 9. RECURSION
+ *
+ * It is perfectly okay for a function to call itself, as long as it doesn't do it so often
+ * that is overflow the stack.
+ *
+ * A function that calls itself is called recursive.
+ * Recursion allows some functions to be written in a different style.
+ */
+
+// Example: An alternative implement for power
+// function power(base, exponent) {
+//   if (exponent == 0) {
+//     return 1;
+//   } else {
+//     return base * power(base, exponent - 1);
+//   }
+// }
+
+// console.log(power(2, 3)); // 8
+
+/**
+ * But this implementation has one problem: in typical Javascript
+ * implementation, it's about three times slower than the looping
+ * version. Running through a simple loop is generally cheaper than
+ * calling a function multiple times.
+ */
+// -----------------------------------------------------------------------------------------
+
+/**
+ * 10. GROWING FUNCTIONS
+ */
+
+/**
+ * Example: We want to write a program that prints two numbers: the numbers of cows and
+ * chickens on a farm, with the words Cows and Chickens after them and zero padded before
+ * both numbers so that they are always three digits long.
+ *
+ * 007 Cows
+ * 011 Chickens
+ *
+ * This ask for a function of two arguments - the number of cows and
+ * the number of chickens
+ */
+
+// // Function
+// function printFarmInventory(cows, chickens) {
+//   let cowsStr = `${toStr(cows)} Cows`;
+//   let chickensStr = `${toStr(chickens)} Chickens`;
+//   return `${cowsStr}\n${chickensStr}`;
+// }
+
+// // Function
+// function toStr(number) {
+//   let str = '';
+//   if (number < 10) {
+//     return `00${number}`;
+//   } else if (number < 100) {
+//     return `0${number}`;
+//   } else {
+//     return number;
+//   }
+// }
+// ------------------------------------------------------------
+
+// Version 1:
+// function printFarmInventory(cows, chickens) {
+//   let cowString = String(cows);
+//   while (cowString.length < 3) {
+//     cowString = '0' + cowString;
+//   }
+//   console.log(`${cowString} Cows`);
+
+//   let chickenString = String(chickens);
+//   while (chickenString.length < 3) {
+//     chickenString = '0' + chickenString;
+//   }
+//   console.log(`${chickenString} Chickens`);
+// }
+// -----------------------------------------------------------
+
+// Version 2:
+// function printZeroPaddedWithLabel(number, label) {
+//   let numberString = String(number);
+//   while (numberString.length < 3) {
+//     numberString = '0' + numberString;
+//   }
+//   console.log(`${numberString} ${label}`);
+// }
+
+// function printFarmInventory(cows, chickens, pigs) {
+//   printZeroPaddedWithLabel(cows, 'Cows');
+//   printZeroPaddedWithLabel(chickens, 'Chickens');
+//   printZeroPaddedWithLabel(pigs, 'Pigs');
+// }
+// -----------------------------------------------------------
+
+// Version 3:
+// function zeroPad(number, width) {
+//   let string = String(number);
+//   while (string.length < width) {
+//     string = '0' + string;
+//   }
+//   return string;
+// }
+
+// function printFarmInventory(cows, chickens, pigs) {
+//   console.log(`${zeroPad(cows, 3)} Cows`);
+//   console.log(`${zeroPad(chickens, 3)} Chickens`);
+//   console.log(`${zeroPad(pigs, 3)} Pigs`);
+// }
+
+// Calling the function
+// printFarmInventory(7, 11, 999);
+// printFarmInventory(7, 11, 3);
+// -----------------------------------------------------------------------------------------
+
+/**
+ * 11. FUNCTIONS AND SIDE EFFECT
+ *
+ * Functions can be roughly divided into those that are called for their side effects and
+ * those that are called for their return value. (Though it is definitely also possible
+ * to both have side effects and return a value.)
+ */
+
+/**
+ * The first helper function in the farm example, printZeroPaddedWithLabel, is called for
+ * its side effect: it prints a line. The second version, zeroPad, is called for its
+ * return value. It is no coincidence that the second is useful in more situations than
+ * the first. Functions that create values are easier to combine in new ways than functions
+ * directly perform side effect.
+ */
+
+/**
+ * A pure function is a specific kind of value-producing function that not only has no
+ * side effects but also doesn't rely on side effects from other code - for example,
+ * it doesn't read global bindings whose value might change.
+ *
+ * A pure function has the pleasant property that, when called with the same arguments,
+ * it always produces the same value 9and doesn't do anything else). A call to such
+ * a function can be substituted by its return value without changing the meaning of
+ * the code. When you not sure that a pure function is working correctly, you can test
+ * it by simply calling it and know that if it works in that context, it will work in
+ * any context. Nonpure functions tend to require more scaffolding to test.
+ */
+// -----------------------------------------------------------------------------------------
+
+/**
+ * SUMMARY
+ *
+ * The function keyword, when used as an expression, can create a function value.
+ * When used as statement, it can be used to declare a binding and give it a function as
+ * its value. Arrow functions are yet another way to create fucntions
+ */
+
+// // Define f to hold a function value
+// const f = function (a) {
+//   console.log(a + 2);
+// };
+
+// // Declare g to be a function
+// function g(a, b) {
+//   return a * b * 3.5;
+// }
+
+// // A less verbose function value
+// let h = (a) => a % 3;
+
+/**
+ * A key aspect in understanding functions is understanding scopes. Each block
+ * creates a new scope. Parameters and bindings declared in a given scope are local
+ * and not visible from the outside. Bindings declared with var behave differntly -
+ * they end up in the nearest function scope or the global scope.
+ */
+
+// ----------------------------------------------------------------------------------------
+function zeroPad(number, width) {
+  let string = String(number);
+  while (string.length < width) {
+    string = '0' + string;
+  }
+  return string;
 }
 
-greet('Harry');
-console.log('Bye');
+function printFarmInventory(cows, chickens, pigs) {
+  console.log(`${zeroPad(cows, 3)} Cows`);
+  console.log(`${zeroPad(chickens, 3)} Chickens`);
+  console.log(`${zeroPad(pigs, 3)} Pigs`);
+}
+
+// Calling the function
+printFarmInventory(1, 22, 333);

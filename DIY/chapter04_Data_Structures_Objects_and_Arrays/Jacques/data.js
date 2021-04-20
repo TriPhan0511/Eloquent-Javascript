@@ -18,8 +18,7 @@ function phi(table) {
 // Function: Make table for an event
 function tableFor(event, journal) {
   let table = [0, 0, 0, 0];
-  for (let i = 0; i < journal.length; i++) {
-    let entry = journal[i];
+  for (let entry of journal) {
     let index = 0;
     if (entry.events.includes(event)) {
       index += 1;
@@ -32,54 +31,39 @@ function tableFor(event, journal) {
   return table;
 }
 
-// TESTING
-
-// Function: addEntry
-// addEntry(['work', 'touched tree', 'pizza', 'running', 'television'], false);
-// addEntry(['work', 'ice cream', 'cauliflower', 'lasagna', 'touched tree', 'brushed teeth'], false);
-// addEntry(['weekend', 'cycling', 'break', 'peanuts', 'beer'], true);
-
-// Function: phi
-// console.log(phi([76, 9, 4, 1])); // 0.068599434
-
-// Function: tableFor
-// let table = tableFor('pizza', JOURNAL);
-// console.log(table); // [76, 9, 4, 1]
-// -----------------------------------------------------------------------------------------
-
-// Finding all of events
-let eventArray = [];
-for (let i = 0; i < JOURNAL.length; i++) {
-  let events = JOURNAL[i].events;
-  for (let j = 0; j < events.length; j++) {
-    let event = events[j];
-    if (!eventArray.includes(event)) {
-      eventArray.push(event);
+// Function: Find every type of event
+function journalEvents(journal) {
+  let events = [];
+  for (let entry of journal) {
+    for (let event of entry.events) {
+      if (!events.includes(event)) {
+        events.push(event);
+      }
     }
   }
+  return events;
 }
-// console.log(eventArray);
 
-// Compute individual correlation of event and append it into an array
-let arr = [];
-for (let i = 0; i < eventArray.length; i++) {
-  let event = eventArray[i];
-  // Create a table for each event
-  let table = tableFor(event, JOURNAL);
-  // Compute correlation of each event
-  let val = phi(table);
-  // Append event name and correlation into arr
-  arr.push({ eventName: event, cor: val });
-}
-console.log(arr);
+// Log all the correlations
+// for (let event of journalEvents(JOURNAL)) {
+//   console.log(`${event}: ${phi(tableFor(event, JOURNAL))}`);
+// }
+// ---------------------------------------------------------------------
 
-let max = arr[0].cor;
-let maxEventName = arr[0].eventName;
-for (let i = 0; i < arr.length; i++) {
-  let entry = arr[i];
-  if (entry.cor > max) {
-    max = entry.cor;
-    maxEventName = entry.eventName;
+// // Filter the results to show correlations greater than 0.1 or less than -0.1
+// for (let event of journalEvents(JOURNAL)) {
+//   let correlation = phi(tableFor(event, JOURNAL));
+//   if (correlation > 0.1 || correlation < -0.1) {
+//     console.log(`${event}: ${correlation}`);
+//   }
+// }
+// ---------------------------------------------------------------------
+
+// Checking events has peanuts but not brushed teeth
+for (let entry of JOURNAL) {
+  if (entry.events.includes('peanuts') && !entry.events.includes('brushed teeth')) {
+    entry.events.push('peanuts teeth');
   }
 }
-console.log(`Event Name: ${maxEventName}, Correlation: ${max}`);
+
+console.log(phi(tableFor('peanuts teeth', JOURNAL)));

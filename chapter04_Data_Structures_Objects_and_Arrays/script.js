@@ -543,6 +543,209 @@
  * Accessing the individual characters in a string looks like accessing array elements.
  */
 
-let string = 'abc';
-console.log(string.length); // 3
-console.log(string[1]); // b
+// let string = 'abc';
+// console.log(string.length); // 3
+// console.log(string[1]); // b
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 12. REST PARAMETERS
+ */
+
+/**
+ * It can be useful for a function to accept any number of arguments. For example,
+ * Math.max computes the maximum of all the arguments it is given.
+ *
+ * To write such a function, you put three dots before the function's last parameter.
+ */
+
+// function max(...numbers) {
+//   let result = -Infinity;
+//   for (let number of numbers) {
+//     if (number > result) {
+//       result = number;
+//     }
+//   }
+//   return result;
+// }
+
+// console.log(max(4, 1, 9, -2));
+
+/**
+ * When such a function is called, the rest parameter is bound to an array containing
+ * all further arguments. If there are other parameters before it, their values aren't
+ * part of that array. When, as in max, it is the only parameter,
+ * it will hold all arguments.
+ *
+ * You can use a similar three-dot notation to call a function
+ * with an array of arguments.
+ */
+
+// let numbers = [5, 1, 7];
+// console.log(max(...numbers)); // 7
+
+/**
+ * This "spreads" out the array into the function call, passing its elements as
+ * separate arguments. It is possible to include an array like that along with
+ * other arguments, as in max(9 ,...numbers, 2).
+ *
+ * Square bracket array notation similarly allows the triple-dot operator to
+ * spread out another into a new array.
+ */
+
+// let words = ['never', 'fully'];
+// console.log(['will', ...words, 'understand']); // ['will', 'never', 'fully', 'understand']
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 13. THE MATH OBJECT
+ */
+
+/**
+ * As we've seenn, Math is a grab bag of number-related utility functions, such as
+ * Math.max (maximum), Math.min (minimum), and Math.sqrt (square root).
+ *
+ * The Math object is used as a container to group a bunch of related functionality.
+ * There is only one Math object, and it is almost never useful as a value.
+ * Rather, it provides a namespace so that all these functions and values do not
+ * have to be global bindings.
+ *
+ * Having too many global bindings "pollutes" the namespace. The more names have been taken,
+ * the more likely you are accidentally overwrite the value of some existing binding.
+ * For example, it's not unlikely to want to name something max in one of your programs.
+ * Since Javascript's built-in max function is tucked safely inside the Math object, we
+ * don't have to worry about overwriting it.
+ *
+ * Many languages will stop you or at least warn you, when you are defining a binding with
+ * a name that is already taken. Javascript does this for bindings you declared with let or
+ * const but - perversely - not for standard bindings nor for bindings declared with var or
+ * function.
+ */
+
+// Example: Do trigonometry
+// function randomPointOnCircle(radius) {
+//   let angle = Math.random() * 2 * Math.PI;
+//   return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
+// }
+
+// console.log(randomPointOnCircle(2));
+// {x: 1.9993188780800124, y: -0.05219218095538883}
+
+/**
+ * The previous example used Math.random. This is a function that returns a new
+ * pseudorandom number between zero (inclusive) and one (exclusive) every time
+ * you call it.
+ */
+
+// console.log(Math.random()); // 0.9717241335581308
+// console.log(Math.floor(Math.random() * 10));
+
+// let max = 15;
+// console.log(Math.floor(Math.random() * max));
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 14. DESTRUCTING
+ */
+
+/**
+ * Let's go back to the phi function for a moment
+ */
+
+// function phi(table) {
+//   return (
+//     (table[3] * table[0] - table[2] * table[1]) /
+//     Math.sqrt(
+//       (table[2] + table[3]) * (table[0] + table[1]) * (table[1] + table[3]) * (table[0] + table[2])
+//     )
+//   );
+// }
+
+/**
+ * One of the reasons this function is awkward to read is that we have a binding pointing at
+ * our array, but we'd prefer to have bindings for the elements of the array, that is,
+ * let n00 = table[0] and so on. Fortunately, there is a succinct way to do this in Javascript.
+ */
+
+// Alternate way
+// function phi([n00, n01, n10, n11]) {
+//   return (n11 * n00 - n10 * n01) / Math.sqrt((n10 + n11) * (n00 + n01) * (n01 + n11) * (n00 + n10));
+// }
+
+/**
+ * This is also for bindings create with let, var, or const. If you know the value you are
+ * binding is an array, you can use square brackets to "look inside" of the value, binding
+ * its contents.
+ * A similar trick works for objects, using braces instead of square brackets.
+ */
+
+// let { name } = { name: 'Faraji', age: 23 };
+// console.log(name); // Faraji
+
+/**
+ * Note that if you try to destructure null or undefined, you get an error, much as you would
+ * if you directly try access a property of those values.
+ */
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 15. JSON (Javascript Object Notation)
+ */
+
+/**
+ * JSON looks similar to Javascript's way of writing arrays and objects, with a few restrictions.
+ * All property names have to be surrounded by double quotes, and only simple data expressions
+ * are allowed - no function calls, bindings, or anything that involves actual computation.
+ * Comments are not allowed in JSON.
+ */
+
+// Example: A journal entry might look like this when represented as JSON data:
+/**
+ * {
+ *    "squirrel" : false,
+ *    "events": ["work", "touched tree", "pizza", "running"]
+ * }
+ */
+
+/**
+ * Javascript give us the function JSON.stringify and JSON.parse to convert data to and
+ * from this format.
+ * The first takes a Javascript value and returns a JSON-encoded string.
+ * The second takes such a string and converts it to the value it encodes.
+ */
+
+// Example:
+// let string = JSON.stringify({ squirrel: false, events: ['weekend'] });
+// console.log(string); // {"squirrel": false, "events": ["weekend "]}
+// console.log(JSON.parse(string).events); // ["weekend"]
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * SUMMARY
+ */
+
+/**
+ * Objects and arrays (which are specific kind of object) provide ways to group several values
+ * into a single value. Conceptually, this allows us to put a bunch of related things in a bag
+ * and run around the bag, instead of wrapping our arms around all of the individual things
+ * and trying to hold on them separately.
+ */
+
+/**
+ * Most values in Javascript have properties, the exception being null and undefined.
+ * Properties are accessed using value.prop or value["prop"].
+ * Objects tend to use names for their properties and store more or less a fixed set of them.
+ * Arrays, on the other hand, usually contain varying amounts of conceptually identical values
+ * and use numbers (starting from 0) as the names of their properties.
+ */
+
+/**
+ * There are some named properties in arrays, such as length and a number of methods.
+ * Methods are functions that live in properties and (usually) act on the value they are
+ * a property of.
+ */
+
+/**
+ * You can iterate over arrays using a special kind of for loop - for (let element of array).
+ *
+ */

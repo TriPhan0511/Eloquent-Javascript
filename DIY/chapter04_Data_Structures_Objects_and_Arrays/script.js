@@ -322,3 +322,227 @@
  * which compares objects by content, but it is possible to write it yourself.
  */
 // -----------------------------------------------------------------------------------------------
+
+/**
+ * 8. ARRAY LOOP
+ */
+
+// Example
+// let JOURNAL = [];
+
+// Function: add entries into an array
+// function addEntry(events, squirrel) {
+//   JOURNAL.push({ events, squirrel });
+// }
+
+// Add some entries into JOURNAL
+// addEntry(['peanuts', 'beer'], true);
+// addEntry(['cycling', 'brushed teeth'], false);
+
+// Loop over an array in classical Javascript
+// for (let i = 0; i < JOURNAL.length; i++) {
+//   let entry = JOURNAL[i];
+//   // Do something with entry
+//   console.log(entry.events);
+// }
+
+// The simpler way to wite a loop in modern Javascript
+// for (let entry of JOURNAL) {
+//   console.log(entry.events);
+// }
+
+/**
+ * When a for loop looks like this, with the word of after a variable definition,
+ * it will loop over the elements of the value given after of.
+ * This works not only for arrays but also for strings and other data structures.
+ */
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 10. FUTHER ARRAYOLOGY
+ */
+
+/**
+ * Introducing some generally useful array methods.
+ */
+
+/**
+ * 10.1 push, pop, unshift, shift
+ * We saw push and pop, which add and remove elements at the end of an array.
+ * The corresponding methods for adding and removing things at the start of
+ * an array are called unshift and shift.
+ */
+
+// Example:
+// let toDoList = [];
+
+// // Function: add a task at the end of toDoList
+// function remember(task) {
+//   toDoList.push(task);
+// }
+
+// // Function: get a task at the start of toDoList and remove it
+// function getTask() {
+//   return toDoList.shift();
+// }
+
+// // Function: add a task at the start of toDoList
+// function rememberUrgently(task) {
+//   toDoList.unshift(task);
+// }
+
+// // Testing
+// remember('Do housework');
+// remember('Go out');
+// // console.log(toDoList); // ["Do housework", "Go out"]
+
+// console.log(getTask()); // Do housework
+// console.log(toDoList); // ["Go out"]
+
+// rememberUrgently('Do exercise');
+// console.log(toDoList); // ["Do exercise", "Go out"]
+// -----------------------------------------------------------------------
+
+/**
+ * 10.2 indexOf, lastIndexOf
+ *
+ * To search for a specific value, arrays provide an indexOf method.
+ * The method searches through the array from the start to the end and returns the index
+ * at which the requested value was found - or -1 if it wasn't found.
+ *
+ * To search from the end instead of the start, there's a similar method called lastIndexOf.
+ *
+ */
+
+// Example:
+// console.log([1, 2, 3, 2, 1].indexOf(2)); // 1
+// console.log([1, 2, 3, 2, 1].lastIndexOf(2)); // 3
+
+/**
+ * Both indexOf and lastIndexOf take an optional second argument that indicates where to
+ * start searching.
+ */
+
+// Example:
+// console.log([1, 2, 3, 2, 1].indexOf(2, 2)); // 3
+// console.log([1, 3, 2, 3, 4, 5].lastIndexOf(3, 2)); // 1
+
+/**
+ * 10.3 slice
+ *
+ * This method takes start and end indices and returns an array that has only the elements
+ * betwen them. The start index is inclusive, the end is exclusive.
+ */
+
+/**
+ * When the end index is not given, slice will take all of the elements after the start index.
+ * You can also omit the start index to copy entire array.
+ */
+
+// Example:
+// console.log([0, 1, 2, 3, 4].slice(2, 4)); // [2,3]
+// console.log([0, 1, 2, 3, 4].slice(2)); // [2, 3, 4]
+// console.log([1, 2, 3, 4].slice()); // [1, 2, 3, 4]
+
+/**
+ * 10.4 concat
+ * The concat method can be used to glue arrays together to create a new array,
+ * similar to what the + operator does for strings.
+ */
+
+/**
+ * The following example shows both concat and slice in action.
+ * It takes an array and an index, and it returns a new array that is a copy of
+ * the original array with the element at the given index removed.
+ */
+
+// function remove(array, index) {
+//   return array.slice(0, index).concat(array.slice(index + 1));
+// }
+
+// console.log(remove(['a', 'b', 'c', 'd', 'e'], 2)); // ['a', 'b', 'd', 'e']
+
+/**
+ * If you pass concat an argument that not an array, that value will be added
+ * to the new array as it if were a one-element array.
+ */
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 11. STRINGS AND THEIR PROPERTIES
+ *
+ * Methods:
+ * length, toUpperCase, toLowerCase,
+ * slice, indexOf,
+ * trim,
+ * padStart,
+ * split, join
+ *
+ */
+
+/**
+ * We can read properties like length and toUpperCase from string values. But if you try to add
+ * a new property, it doesn't stick.
+ */
+
+// let kim = 'Kim';
+// kim.age = 18;
+// console.log(kim.age); // undefined
+
+/**
+ * Values of type string, number, and Boolean are not objects, and though the language doesn't
+ * complain if you try to set new properties on them, it doesn't actually store those properties.
+ * As mentioned earlier, such values are immutable and cannot be changed.
+ *
+ * But these types do have buit-in properties. Every string value has a number of methods.
+ * Some very useful ones are slice and indexOf, which resemble the array methods of the same name.
+ */
+
+// console.log('coconuts'.slice(4, 7)); // nut
+// console.log('coconut'.indexOf('u')); // 5
+
+/**
+ * One difference is that a string's indexOf can search for a string containing more than
+ * one character, whereas the corresponding array method looks only for a single element.
+ */
+
+// console.log('one two three'.indexOf('ee')); // 11
+
+/**
+ * The trim method removes whitespaces (spaces, newlines, tabs, and similar characters) from
+ * the start and end of a string.
+ */
+
+// let str = ' okay \n ';
+// console.log(str);
+// console.log(str.trim());
+
+/**
+ * The padStart method takes the desired length and padding character as arguments.
+ */
+
+// console.log(String(6).padStart(3, '0')); // 006
+
+/**
+ * You can split a string on every occurrence of another string with split and join it again
+ * with join
+ */
+// let sentence = 'Secretarybirds specialize in stomping';
+// let words = sentence.split(' ');
+// console.log(words); // ['Secretary', 'specialize', 'in', 'stomping']
+// console.log(words.join('. ')); // Secretary. specialize. in. stomping
+
+/**
+ * A string can be repeated with the repeat method, which creates a new string containing
+ * multiple copies of the original string, glued together.
+ */
+// console.log('LA'.repeat(3)); // LALALA
+
+/**
+ * We have already seen the string type's length property.
+ * Accessing the individual characters in a string looks like accessing array elements.
+ */
+
+let string = 'abc';
+console.log(string.length); // 3
+console.log(string[1]); // b

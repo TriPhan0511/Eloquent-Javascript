@@ -222,34 +222,142 @@
  * If you haven't already, also write a recursive version of nth.
  */
 
-// Function: builds up a list from an array
-function arrayToList(array) {
-  let list = {};
-  while (array.length != 0) {
-    list.value = array[0];
-    array.shift();
-    if (array.length === 0) {
-      list.rest = null;
-    } else {
-      list.rest = arrayToList(array);
-    }
-  }
-  return list;
-}
+// // Function: Builds up a list structure from an array
+// function arrayToList(array) {
+//   let list = {};
+//   while (array.length != 0) {
+//     list.value = array[0];
+//     array.shift();
+//     if (array.length === 0) {
+//       list.rest = null;
+//     } else {
+//       list.rest = arrayToList(array);
+//     }
+//   }
+//   return list;
+// }
+
+// // Function: Produces an array from a list
+// function listToArray(list) {
+//   let array = [];
+//   while (list != null) {
+//     array.push(list.value);
+//     list = list.rest;
+//   }
+//   return array;
+// }
+
+// // Function: takes an element and a list and creates a new list that adds the element
+// // to the front of the input list.
+// function prepend(element, list) {
+//   let newList = {};
+//   newList.value = element;
+//   newList.rest = list;
+//   return newList;
+// }
+
+// // Function
+// function nth(list, number) {
+//   let count = 0;
+//   while (list != null) {
+//     if (count === number) {
+//       return list.value;
+//     } else {
+//       count++;
+//       list = list.rest;
+//     }
+//   }
+//   return undefined;
+// }
+
+// // Testing
+// // let list = arrayToList([10, 20]);
+// // console.log(list);
+
+// // let array = listToArray(list);
+// // console.log(array);
+
+// // let list = { value: 10, rest: { value: 20, rest: null } };
+// // let newList = prepend(300, list);
+// // console.log(newList);
+
+// let list = { value: 1, rest: { value: 2, rest: { value: 3, rest: null } } };
+// console.log(nth(list, 0)); // 1
+// console.log(nth(list, 1)); // 2
+// console.log(nth(list, 2)); // 3
+// console.log(nth(list, 4)); // undefined
+// console.log(nth(list, -1)); // undefined
+// console.log(nth(list, 10)); // undefined
+// ----------------------------------------------
+
+/**
+ * SOLUTION FROM THE AUTHOR
+ */
+
+// Function: Builds up a list structure from an array
+// function arrayToList(array) {
+//   list = null;
+//   for (let i = array.length - 1; i >= 0; i--) {
+//     list = { value: array[i], rest: list };
+//   }
+//   return list;
+// }
 
 // Function: Produces an array from a list
-function listToArray(list) {
-  let array = [];
-  while (list != null) {
-    array.push(list.value);
-    list = list.rest;
-  }
-  return array;
-}
+// function listToArray(list) {
+//   let array = [];
+//   for (let node = list; node; node = node.rest) {
+//     array.push(node.value);
+//   }
+//   return array;
+// }
+
+// Function: takes an element and a list and creates a new list that adds the element
+// function prepend(value, list) {
+//   return { value, rest: list };
+// }
+
+// Function: Takes a list and a number and returns the element at the given position
+// in the list (with zero referring to the first element) or undefined when there is no such element.
+// function nth(list, n) {
+//   if (!list) {
+//     return undefined;
+//   } else if (n == 0) {
+//     return list.value;
+//   } else {
+//     return nth(list.rest, n - 1);
+//   }
+// }
 
 // Testing
 // console.log(arrayToList([10, 20]));
+// console.log(listToArray(arrayToList([1, 2, 3]))); // [1, 2, 3]
+// console.log(prepend(200, arrayToList([10, 20])));
 
-let list = arrayToList([10, 20]);
-let array = listToArray(list);
-console.log(array);
+// console.log(nth(arrayToList([1, 2, 3]), 0)); // 1
+// console.log(nth(arrayToList([1, 2, 3]), 1)); // 2
+// console.log(nth(arrayToList([1, 2, 3]), 2)); // 3
+// console.log(nth(arrayToList([1, 2, 3]), 3)); // undefined
+// -------------------------------------------------------------------------------------
+
+/**
+ * EXERCISE 4: DEEP COMPARISON
+ */
+
+/**
+ * The == operator compares objects by identity. But sometimes you'd prefer to compare
+ * the values of their actual properties.
+ *
+ * Write a function deepEqual that takes two values and returns true only if they are
+ * the same value or are objects with the same properties, where the values of
+ * the properties are equal when compared with a recursive call to deepEqual.
+ *
+ * To find out whether values should compared directly (use the === operator for that)
+ * or have their properties compared, you can use the typeof operator. If it produces
+ * "object" for both values, you should do a deep comparison. But you have to take one
+ * silly exception into account: because of a historical accident, typeof null also
+ * produces "object".
+ *
+ * The Object.keys function mwill be useful when you need to go over the properties of
+ * objects to compare them.
+ */

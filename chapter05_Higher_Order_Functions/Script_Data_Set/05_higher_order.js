@@ -230,4 +230,110 @@
  * and dead scripts in the dataset.
  */
 
-console.log(SCRIPTS[0]);
+// function average(array) {
+//   return array.reduce((a, b) => a + b) / array.length;
+// }
+
+// console.log(Math.round(average(SCRIPTS.filter((s) => s.living).map((s) => s.year))));
+// // 1165
+
+// console.log(Math.round(average(SCRIPTS.filter((s) => !s.living).map((s) => s.year))));
+// // 204
+
+/**
+ * You could definitely also write this computation as one big loop
+ */
+
+// let total = 0;
+// let count = 0;
+// for (let script of SCRIPTS) {
+//   if (script.living) {
+//     total += script.year;
+//     count++;
+//   }
+// }
+
+// if (count) {
+//   console.log(Math.round(total / count));
+// }
+// --------------------------------------------------------------------------------------
+
+/**
+ * 9. STRINGS AND CHARACTER CODES
+ */
+
+/**
+ * One use of data set would be figuring out what script a piece of text is using
+ */
+
+/**
+ * Remember that each script has an array of character code ranges associated
+ * with it. So given a character code, we could use a function like this to find the
+ * corresponding script (if any):
+ */
+
+// console.log(SCRIPTS[0]);
+// console.log(SCRIPTS[0].ranges);
+// for (let range of SCRIPTS[0].ranges) {
+//   console.log(range);
+// }
+/**
+[125184, 125259]
+[125264, 125274]
+[125278, 125280]
+ */
+
+// Function
+// function included(code, array) {
+//   let i = array[0];
+//   while (i <= array[array.length - 1]) {
+//     if (code === i) {
+//       return true;
+//     } else {
+//       i++;
+//     }
+//   }
+//   return false;
+// }
+
+// Function
+// function findScript(code, scripts) {
+//   for (let script of scripts) {
+//     for (let range of script.ranges) {
+//       if (included(code, range)) {
+//         return script;
+//       }
+//     }
+//   }
+//   return null;
+// }
+
+// console.log(SCRIPTS[15]);
+// console.log(SCRIPTS[15].ranges);
+// Braille
+// console.log(findScript(10241, SCRIPTS));
+// Braille
+
+// console.log(findScript(121, SCRIPTS));
+// ---------------------------------------------------
+
+function characterScript(code) {
+  for (let script of SCRIPTS) {
+    if (
+      script.ranges.some(([from, to]) => {
+        return code >= from && code < to;
+      })
+    ) {
+      return script;
+    }
+  }
+  return null;
+}
+
+// console.log(characterScript(121));
+// {name: "Latin", ranges: Array(31), direction: "ltr", year: -700, living: true, …}
+
+/**
+ * The some method is another higer-order function. It takes a test function
+ * and tells you whether that function returns true for any of the elements in the array.
+ */

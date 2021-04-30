@@ -317,18 +317,18 @@
 // console.log(findScript(121, SCRIPTS));
 // ---------------------------------------------------
 
-function characterScript(code) {
-  for (let script of SCRIPTS) {
-    if (
-      script.ranges.some(([from, to]) => {
-        return code >= from && code < to;
-      })
-    ) {
-      return script;
-    }
-  }
-  return null;
-}
+// function characterScript(code) {
+//   for (let script of SCRIPTS) {
+//     if (
+//       script.ranges.some(([from, to]) => {
+//         return code >= from && code < to;
+//       })
+//     ) {
+//       return script;
+//     }
+//   }
+//   return null;
+// }
 
 // console.log(characterScript(121));
 // {name: "Latin", ranges: Array(31), direction: "ltr", year: -700, living: true, …}
@@ -336,4 +336,90 @@ function characterScript(code) {
 /**
  * The some method is another higer-order function. It takes a test function
  * and tells you whether that function returns true for any of the elements in the array.
+ */
+
+// Two emoji characters, horse and shoe
+// let horseShoe = '🐴👟';
+
+// console.log(horseShoe.length); // 4
+// console.log(horseShoe[0]); // Invalid half-character
+// console.log(horseShoe.charCodeAt(0)); // 55357 (Code of the half-character)
+// console.log(horseShoe.codePointAt(0)); // 128052 (Actual code for horse emoji)
+
+// let roseDragon = '🌹🐉';
+
+// for (let char of roseDragon) {
+//   console.log(char);
+// }
+// --------------------------------------------------------------------------------------
+
+/**
+ * 10. RECOGNIZING TEXT
+ */
+
+// function countBy(items, groupName) {
+//   let counts = [];
+//   for (let item of items) {
+//     let name = groupName(item);
+//     let known = counts.findIndex((c) => c.name == name);
+//     if (known == -1) {
+//       counts.push({ name, count: 1 });
+//     } else {
+//       counts[known].count++;
+//     }
+//   }
+//   return counts;
+// }
+
+// console.log(countBy([1, 2, 3, 4, 5], (n) => n > 2));
+// [{name: true, count: 3}, {name: false, count: 2}]
+
+/**
+ * The countBy function expects a collection (anything that we can loop over with for/of) and
+ * a function that computes a group name for a given element. It returns an array of objetcs,
+ * each of which names a group ad tells you the numbers of elements that were found in that group.
+ */
+
+/**
+ * It uses another array method - findIndex. This method is somewhat like indexOf, but
+ * instead of looking for a specific value, it finds the first value for which the given function
+ * returns true. Like indexOf, it returns -1 when no such elements is found.
+ */
+
+/**
+ * Using countBy, we can write the function that tells us which scripts are used
+ * in a piece of text
+ */
+
+// function textScripts(text) {
+
+// }
+// --------------------------------------------------------------------------------------
+
+/**
+ * SUMMARY
+ */
+
+/**
+ * Being able to pass function values to other function is a deeply useful aspect
+ * of Javascript. It allow us to write functions that model computations with
+ * "gaps" in them. The code that calls these functions can fill in the gaps by
+ * providing function values.
+ */
+
+/**
+ * Arrays provide a number of useful higher-order methods.
+ *
+ * You can use forEach method to loop over the elements in an array.
+ *
+ * The filter method returns a new array containing only the element that pass
+ * the predicate function.
+ *
+ * Transforming an array by putting each element through a function is done with map.
+ *
+ * You can use reduce method to combine all the elements in an array into a single value.
+ *
+ * The some method tests whether any elements matches a given predicate function.
+ *
+ * And findIndex method finds the position of the first element that matches a predicate.
  */

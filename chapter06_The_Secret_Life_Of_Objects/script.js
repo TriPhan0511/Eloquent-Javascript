@@ -1,59 +1,3 @@
-// Object declaration
-// let obj = {
-//   key1: 'value1',
-//   key2: ['value2', 'value3'],
-//   key3: [
-//     ['value4', 'value5'],
-//     ['value6', 'value7'],
-//   ],
-//   key4: {
-//     anotherKey1: 'anotherValue1',
-//     anotherKey2: ['anotherValue2', 'anotherValue3'],
-//   },
-// };
-
-// Access to object
-// console.log(obj);
-
-// List all keys of an object
-// console.log(Object.keys(obj)); // ["key1", "key2", "key3", "key4"]
-
-// Access to a value of an object using bracket
-// console.log(obj['key1']); // value1
-
-// Access to a value of an object using dot notation
-// console.log(obj.key1); // value1
-
-// console.log(obj.key2); // ["value2", "value3"]
-// console.log(obj.key2[1]); // value3
-
-// console.log(obj.key3);
-/**
- * [["value4", "value5"], ["value6", "value7"]]
- */
-
-// console.log(obj.key3[0]); // ["value4", "value5"]
-// console.log(obj.key3[1][1]); // value7
-
-// console.log(obj.key4);
-/**
- * {anotherKey1: "anotherValue1", anotherKey2: ["anotherValue2", "anotherValue3"]}
- */
-
-// console.log(obj.key4.anotherKey1); // "anotherValue1"
-// console.log(obj.key4.anotherKey2[1]); // "anotherValue3"
-
-// Add more properties to the object
-// obj.key5 = ['value8', 'value9'];
-// console.log(obj.key5); // ["value8", "value9"]
-
-/**
- * In programming culture, we have a thing called object-oriented programming,
- * a set of techniques that use objects (and related concepts) as the central principle
- * of program organization.
- */
-// -----------------------------------------------------------------------------------------------
-
 /**
  * 1. ENCAPSULATION
  */
@@ -139,6 +83,10 @@
 
 // speak.call(hungryRabbit, 'Burp!');
 // -> The hungry rabbit says 'Burp!'
+
+// let blackRabbit = { type: 'black' };
+// speak.call(blackRabbit, 'Aloha, world');
+// -> The black rabbit says 'Aloha, world'
 
 /**
  * Since each function has its own this binding, whose value depends on the
@@ -251,3 +199,188 @@
  * that apply only to itself - in this case its type - and derives shared properties
  * from its prototype.
  */
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 4. CLASSES
+ */
+
+/**
+ * Javascript's prototype system can be interpreted as a somewhat informal take on
+ * an object-oriented concept called classes. A class defines the shape of a type
+ * of object - what methods and properties it has. Such an object is called an instance
+ * of the class.
+ *
+ * Prototypes are useful for defining properties for which all instances of a class
+ * share the same value, such as methods. Properties that differ per instance,
+ * such as our rabbits' type property, need to be stored directly in the objects themselves.
+ *
+ * So to create an instance of a given class, you have to make an object that derives from
+ * the proper prototype, but you also have to make sure it, itself, has the properties that
+ * instances of this class are supposed to have. This is what a constructor function does.
+ */
+
+// Prototype of rabbits
+// let protoRabbit = {
+//   speak(line) {
+//     console.log(`The ${this.type} rabbit says '${line}'`);
+//   },
+// };
+
+// Constructor
+// function makeRabbit(type) {
+//   let rabbit = Object.create(protoRabbit);
+//   rabbit.type = type;
+//   return rabbit;
+// }
+
+// let whiteRabbit = makeRabbit('white');
+
+// console.log(typeof whiteRabbit); // object
+// console.log(whiteRabbit.type); // white
+// whiteRabbit.speak('Kekeke');
+// console.log(typeof whiteRabbit.speak); // function
+// console.log(typeof whiteRabbit.type); // string
+
+/**
+ * Javascript provides a way to make defining this type of function easier.
+ * If you put the keyword new in front of a function call, the function is treated
+ * as a constructor. This means that an object with the right prototype is
+ * automatically created, bound to this in the function, and returned at the end
+ * of the function.
+ *
+ * The prototype object used when constructing objects is found by taking the
+ * prototype property of the constructor function.
+ */
+
+// Constructor
+// function Rabbit(type) {
+//   this.type = type;
+// }
+
+// // Create prototype for Rabbit
+// Rabbit.prototype.speak = function (line) {
+//   console.log(`The ${this.type} rabbit says '${line}'`);
+// };
+
+// // Create a new instance of Rabbit
+// let weirdRabbit = new Rabbit('weird');
+
+// weirdRabbit.speak('hello, world');
+// -> The weird rabbit says 'hello, world'
+
+/**
+ * Constructors (all functions, in fact) automatically get a property named prototype,
+ * which by default holds a plain, empty object that derives from Object.prototype.
+ * You can overwrite it with a new object if you want. Or you can add properties to
+ * the existing object, as the example does.
+ */
+
+/**
+ * By convention, the names of constructors are capitalized so thay they can easily
+ * be distinguished from other functions.
+ */
+
+/**
+ * It is imortant to understand the distinction between the way a prototype
+ * is associated with a constructor (through its prototype property) and
+ * the way objects have a prototype (which can be found with Object.getPrototypeOf).
+ *
+ * The actual prototype of a constructor is Function.prototype since constructors
+ * are functions. Its prototype property holds the prototype used for instances
+ * created through it.
+ */
+
+// console.log(Object.getPrototypeOf(Rabbit) == Function.prototype);
+// -> true
+
+// console.log(Object.getPrototypeOf(weirdRabbit) == Rabbit.prototype);
+// -> true
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 5. CLASS NOTATION
+ */
+
+/**
+ * So Javascript classes are constructor functions with a prototype property. That
+ * is how they work, and until 2015, that was how you had to write them.
+ *
+ * These days, we have a less awkward notation
+ */
+
+// class Rabbit {
+//   constructor(type) {
+//     this.type = type;
+//   }
+//   speak(line) {
+//     console.log(`The ${this.type} rabbit says '${line}'`);
+//   }
+// }
+
+// let killerRabbit = new Rabbit('killer');
+// let blackRabbit = new Rabbit('black');
+
+// killerRabbit.speak('heyyo');
+// blackRabbit.speak('hungry!');
+
+/**
+ * The class keyword starts a class declaration, which allow us define a constructor
+ * and set of methods all in a single place.
+ * Any number of methods may be written inside the declaration's braces.
+ * The one named constructor is treated specially. It provides the actual constructor
+ * function, which will be bound to the name Rabbit.
+ * The others are packaged into that constructor's prototype. Thus, the earlier class
+ * declaration is equivalent to the constructor definition from the previous section.
+ * It just looks nicer.
+ */
+
+// console.log(Object.getPrototypeOf(Rabbit) == Function.prototype);
+// // -> true
+// console.log(Object.getPrototypeOf(killerRabbit) == Rabbit.prototype);
+// // -> true
+
+/**
+ * Class declarations currently allow only methods - properties that hold functions - to
+ * be added to the prototype. This can be somewhat inconvenient when you want to save
+ * a non-function value in there. The next version of the language will probably improve
+ * this. For now, you can create such properties by directly manipulating the prototype
+ * after you've defined the class.
+ *
+ * Like function, class can be used both in statements and in expressions.
+ * When used as an expression, it doesn't define a binding but just produces the
+ * constructor as a value. You are allowed to omit the class name in a class expression.
+ */
+
+// let object = new (class {
+//   getWord() {
+//     return 'hello';
+//   }
+// })();
+
+// console.log(object.getWord());
+// --------------------------------------------------------
+
+class Animal {
+  constructor(type) {
+    this.type = type;
+  }
+
+  moving(how) {
+    console.log(`The ${this.type} moves by ${how}`);
+  }
+}
+
+let fish = new Animal('Fish');
+// fish.moving('Swimming');
+// fish.breathing('nose');
+
+// console.log(typeof Animal); // function
+// console.log(typeof fish); // object
+
+Animal.prototype.breathing = function (what) {
+  console.log(`The ${this.type} breath by ${what}`);
+};
+// fish.breathing('nose');
+
+console.log(Object.getPrototypeOf(fish) == Animal.prototype); // true

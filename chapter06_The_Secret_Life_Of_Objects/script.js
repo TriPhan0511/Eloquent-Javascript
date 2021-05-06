@@ -359,28 +359,321 @@
 // })();
 
 // console.log(object.getWord());
-// --------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
 
-class Animal {
-  constructor(type) {
-    this.type = type;
-  }
+/**
+ * 6. OVERRIDING DERIVED PROPERTIES
+ */
 
-  moving(how) {
-    console.log(`The ${this.type} moves by ${how}`);
-  }
-}
+/**
+ * When you add a property to an object, whether it is present in the prototype or not,
+ * the property is added to the object itself. If there was already a property with the
+ * same name in the prototype, this property will no longer affect the object, as it is
+ * now hidden behind the object's own property.
+ */
 
-let fish = new Animal('Fish');
-// fish.moving('Swimming');
-// fish.breathing('nose');
+// Rabbit class
+// class Rabbit {
+//   constructor(type) {
+//     this.type = type;
+//   }
 
-// console.log(typeof Animal); // function
-// console.log(typeof fish); // object
+//   speak(line) {
+//     console.log(`The ${this.type} rabbit says '${line}'`);
+//   }
+// }
 
-Animal.prototype.breathing = function (what) {
-  console.log(`The ${this.type} breath by ${what}`);
-};
-// fish.breathing('nose');
+// Create two instance of Rabbit
+// let killerRabbit = new Rabbit('killer');
+// let blackRabbit = new Rabbit('black');
 
-console.log(Object.getPrototypeOf(fish) == Animal.prototype); // true
+// Add a new property fo Rabbit.prototype
+// Rabbit.prototype.teeth = 'small';
+
+// console.log(killerRabbit.teeth);
+// -> small
+
+// killerRabbit.teeth = 'long, sharp, and bloody';
+// console.log(killerRabbit.teeth);
+// // -> long, sharp, and bloody
+
+// console.log(blackRabbit.teeth);
+// // -> small
+
+// console.log(Rabbit.prototype.teeth);
+// // -> small
+
+/**
+ * Overriding properties that exist in a prototype can be a useful thing to do. As
+ * the rabbit teeth example shows, overriding can be used to express exceptional
+ * properties in instances of a more generic class of objects, while letting the
+ * nonexceptional objects take a standard value from their prototype.
+ *
+ * Overriding is also used to give the standard function and array prorotypes a
+ * different toString method than the basic object prototype.
+ */
+
+// console.log(Array.prototype.toString == Object.prototype.toString); // false
+
+// console.log([1, 2].toString());
+// 1, 2
+
+/**
+ * Calling toString on an array gives a result similar .join(",") on
+ * it - it puts commas between the values in the array.
+ * Directly calling Object.prototype.toString with an array produces a different string.
+ * That function doesn't know about arrays, so it simply puts the word object and
+ * the name of the type between square brackets.
+ */
+
+// console.log(Object.prototype.toString.call([1, 2]));
+// -> [object Array]
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 7. MAPS
+ */
+
+/**
+ * We saw the word map used in the previous chapter for an operation that transforms
+ * a data structure by applying a function to its elements.
+ * Confusing as it is, in programming the same word is also used for a related but rather
+ * different thing.
+ *
+ * A map (noun) is a data structure that associates values (the keys) with other values.
+ * For example, you might want to map names to ages. It is possible to use objects for this.
+ */
+
+// let ages = {
+//   Boris: 39,
+//   Liang: 22,
+//   Julia: 62,
+// };
+
+// console.log(`Julia is ${ages['Julia']}`);
+// // -> Julia is 62
+
+// console.log("Is Jack's age known?", 'Jack' in ages);
+// // -> Is Jack's age known? false
+
+// console.log("Is toString's age known?", 'toString' in ages);
+// // -> Is toString's age known? true
+
+/**
+ * Here, the object's property names are the people's names, and the property values
+ * are their ages. But we certainly didn't list anybody named toString in our map.
+ * Yet, because plain objects derive from Object.prototype, it looks like hte property
+ * is there.
+ *
+ * As such, using plain objects as maps is dangerous. There are several possible ways
+ * to avoid this problem.
+ * First, it is possible to create objects with no prototype. If you pass null to
+ * Object.create, the resulting object will not derive from Object.prorotype and
+ * can safely used as a map.
+ */
+
+// console.log('toString' in Object.create(null));
+// -> false
+
+/**
+ * Object property names must be strings. If you need a map whose keys can't easily
+ * be converted to strings - such as objects - you cannot use an object as your map.
+ *
+ * Fortunately, Javascript comes with a class called Map that is written for this
+ * exact purpose. It stores a mapping and allows any type of keys.
+ */
+
+// let ages = new Map();
+// ages.set('Boris', 39);
+// ages.set('Liang', 22);
+// ages.set('Julia', 62);
+
+// console.log(`Julia is ${ages.get('Julia')}`);
+// // -> Julia is 62
+
+// console.log("Is Jack's age known?", ages.has('Jack'));
+// // -> Is Jack's age known? false
+
+// console.log(ages.has('toString'));
+// // -> false
+
+/**
+ * The methods set, get and has art part of the interface of the the Map object.
+ * Writing a data structure that can quickly update and search a large set of value
+ * isn't easy, but we don't have ro worry about that. Someone else did it for us,
+ * and we can go through this simple interface to use their work.
+ *
+ * If you do have a plain object that you need treat a map for some reason,
+ * it is useful to know that Object.keys returns only an object's own keys, not
+ * those in the prototype. As an alternate to the in operator, you can use
+ * the hasOwnProperty method, which ignores the object's prototype.
+ */
+
+// console.log({ x: 1 }.hasOwnProperty('x'));
+// // -> true
+
+// console.log({ x: 1 }.hasOwnProperty('toString'));
+// // -> false
+
+// console.log('toString' in { x: 1 });
+// // -> true
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 8. POLYMORPHISM
+ */
+
+/**
+ * When you call the String function (which converts a value to a string) on an object,
+ * it will call the toString method on that object to try to create a meaningful string
+ * from it. I mentioned that some of the standard prototypes define their own version
+ * of toString so they can create a string has contains more useful information than
+ * "[object Object]". You can also do that yourself.
+ */
+
+// class Rabbit {
+//   constructor(type) {
+//     this.type = type;
+//   }
+
+//   speak(line) {
+//     console.log(`The ${this.type} says '${line}'.`);
+//   }
+// }
+
+// Rabbit.prototype.toString = function () {
+//   return `a ${this.type} rabbit`;
+// };
+
+// let blackRabbit = new Rabbit('black');
+
+// console.log(String(blackRabbit));
+// -> a black rabbit
+
+/**
+ * This is a simple instance of a powerful idea. When a piece of code is written to
+ * work with objects that have a certain interface - in this case,
+ * a toString method - any kind of object that happens ti support this interface can
+ * be plugged into the code, and it will just work.
+ *
+ * This technique is called polymorphism. Polymorphic code can work with values of
+ * different shapes, as long as they support the interface it expects.
+ *
+ * I mentioned in Chapter 4 that a for/of loop ca loop over several kinds of data structures.
+ * This is another case of polymorphism - such loops expect the data structure to expose a
+ * specific interface, which arrays and strings do. And we can also add this interface to
+ * our own objects! But before we can do that, we need to know what symbols are.
+ */
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 9. SYMBOLS
+ */
+
+/**
+ * It is possible for multiple interfaces to use the same property name for different things.
+ * For example, I could define an interface in which the toString method is supposed to convert
+ * the object into a piece of yearn. It would not be possible for an object to conform both
+ * that interface and the standard use of toString.
+ *
+ * That would be a bad idea, and this problem isn't that common. Most Javascript programmers
+ * simply don't think about it. But the language desingers, whose job it is to think about
+ * that stuff, have provided us with a solution anyway.
+ *
+ * When I claimed that property names are strings, that wasn't entirely accurate.
+ * They usually are, but they can also be symbols. Symbols are values created with the
+ * Symbol function. Unlike strings, newly created symbols are unique - you cannot create
+ * the same symbol twice
+ */
+
+// let sym = Symbol('name');
+
+// // console.log(sym == Symbol('name'));
+// // -> false
+
+// // Create Rabbit class
+// class Rabbit {
+//   constructor(type) {
+//     this.type = type;
+//   }
+// }
+
+// // Create an instance of Rabbit
+// let blackRabbit = new Rabbit('black');
+
+// Rabbit.prototype[sym] = 55;
+
+// console.log(blackRabbit[sym]);
+// // -> 55
+
+/**
+ * The string you pass to Symbol is included when you convert it to a string
+ * and can make it easier to recognize a symbol when, for example, showing it
+ * on the console. But is has no meaning beyond that - multiple symbols may have
+ * the same name.
+ *
+ * Being both unique and usable as property names makes symbols suitable for defining
+ * interfaces that can peacefully live alongside other properties, no matter what
+ * their names are.
+ */
+
+// const toStringSymbol = Symbol('toString');
+// Array.prototype[toStringSymbol] = function () {
+//   return `${this.length} cm of blue yarn`;
+// };
+
+// console.log([1, 2].toString());
+// // -> 1,2
+
+// console.log([1, 2][toStringSymbol]());
+// // -> 2 cm of blue yearn
+
+/**
+ * It is possible to include symbol properties in object expressions and classes
+ * by using square brackets around the property name. That causes the property name
+ * to be evaluated, much like the square bracket property access notation,
+ * which allow us to refer a binding that holds the symbok.
+ */
+
+// const toStringSymbol = Symbol('toString;');
+
+// let stringObject = {
+//   [toStringSymbol]() {
+//     return 'a jute rope';
+//   },
+// };
+
+// console.log(stringObject[toStringSymbol]());
+// // -> a jute rope
+// -----------------------------------------------------------------------------------------------
+
+/**
+ * 10. THE ITERATOR INTERFACE
+ */
+
+/**
+ * The object given to a for/of loop is expected to be iterable. This means it has
+ * a method named with the Symbol.iterator symbol (a symbol value defined by the language,
+ * stored as a property of the Symbol function).
+ *
+ * When called, that method should return an object that provides a second interface, iterator.
+ * This is the actual thing that iterates. It has a next method that returns the next result.
+ * That result should be an object with a value property that provides the next value,
+ * if there is one, and a done property, which should be true when there are no more results
+ * and false otherwise.
+ *
+ * Note that the next, value, and done property names are plain strings, not symbols.
+ * Only Symbol.iterator, which is likely to be added to a lot of different objects,
+ * is an actual symbol.
+ *
+ * We can directly us this interface ourselves.
+ */
+
+let okIterator = 'OK'[Symbol.iterator]();
+
+console.log(okIterator.next());
+// -> {value: "O", done: false}
+console.log(okIterator.next());
+// -> {value: "K", done: false}
+console.log(okIterator.next());
+// -> {value: undefined, done: true}

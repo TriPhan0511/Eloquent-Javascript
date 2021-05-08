@@ -1064,90 +1064,67 @@
  * You can define getters and setters to secretly call methods every time an
  * object's property is accessed. Static methods are methods stored in a class's
  * constructor, rather than its prototype.
+ *
+ * The instanceof operator can, given an object and a constructor, tell you
+ * whether that object is an instance of that constructor.
+ *
+ * One useful thing to do with objects is to specify an interface for them and
+ * tell everybody that they are supposed to talk to your object through that
+ * interface. The rest of the details that make up your object are now encapsulated,
+ * hidden behind the interface.
+ *
+ * More than one type may implement the same interface. Code written to use an
+ * interface automatically knows how to work with any number of different objects
+ * that provide the interface. This is called plymorphism.
+ *
+ * When implementing multiple classes that differ in only some details, it can
+ * be helpful to write the new classes as subclasses of an existing class, inheriting
+ * part of its behavior.
  */
 
-// class User {
-//   constructor(name, age) {
-//     this.name = name;
-//     this.age = age;
+// class Animal {
+//   // Constructor
+//   constructor(type, voice = 'krkr') {
+//     this.type = type;
+//     this.voice = voice;
 //   }
 
-//   introduce() {
-//     console.log(`Hello, I'm ${this.name} and my age is ${this.age}.`);
+//   // Setter
+//   set speak(voice) {
+//     this.voice = voice;
 //   }
 
-//   aloha(other) {
-//     console.log(`${this.name} aloha ${other}`);
-//   }
-
-//   get profile() {
-//     return `Profile | Name: ${this.name}, `;
-//   }
-
-//   set Name(newName) {
-//     this.name = newName;
+//   // Getter
+//   get speak() {
+//     return `The ${this.type} says ${this.voice}`;
 //   }
 // }
 
-// let peter = new User('Peter', 40);
-
-// peter.introduce();
-// peter.aloha('the world.');
-
-// console.log(peter.profile);
-// console.log(typeof peter.profile);
-
-// console.log(peter.name); // Peter
-
-// peter.Name = 'Peter II';
-// console.log(peter.name); // Peter II
-
-// ---------------------------------------------------------------------
-
-// function User(name) {
-//   this.name = name;
-// }
-
-// User.prototype.sayHello = function (other) {
-//   console.log(`${this.name} hello ${other}`);
-// };
-
-// let john = new User('Johnny');
-
-// john.sayHello('the world');
-// ---------------------------------------------------------------------
-
-// class User {
-//   constructor(name) {
-//     this.name = name;
+// class Bird extends Animal {
+//   get speak() {
+//     return `The bird ${this.type} says ${this.voice}`;
 //   }
 
-//   sayHello() {
-//     console.log(`${this.name} hello everybody!`);
+//   move(how) {
+//     console.log(`The bird ${this.type} move by ${how}`);
 //   }
 // }
 
-// let emp = new User('Jack');
-// // emp.sayHello();
+// let cuccuBird = new Bird('cuccu', 'cucuccuccu');
+// console.log(cuccuBird.speak);
+// // -> The bird cuccu says cucuccuccu
 
-// // console.log(Object.getPrototypeOf(emp) == User.prototype); // true
+// cuccuBird.move('flying');
+// // -> The bird cuccu move by flying
 
-// User.prototype.aloha = function (other) {
-//   console.log(`${this.name} aloha ${other}`);
-// };
+// let aDog = new Animal('dog', 'GOGO');
+// console.log(aDog.speak);
 
-// // emp.aloha('the world');
-
-// let peter = new User('Peter');
-
-// // peter.sayHello();
-// // peter.aloha('everybody');
-
-// // console.log(String(peter)); // [object Object]
-
-// User.prototype.toString = function () {
-//   return `I'm ${this.name}`;
-// };
-
-// console.log(String(peter));
-// console.log(peter.toString());
+// console.log(aDog instanceof Animal);
+// // -> true
+// console.log(aDog instanceof Bird);
+// // -> false
+// console.log(cuccuBird instanceof Animal);
+// // -> true
+// console.log(cuccuBird instanceof Bird);
+// // -> true

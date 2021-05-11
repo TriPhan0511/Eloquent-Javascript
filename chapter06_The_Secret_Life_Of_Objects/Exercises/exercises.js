@@ -72,26 +72,105 @@
  * a group that contains all the values produced by iterating over it.
  */
 
+// class Group {
+//   constructor() {
+//     this.members = [];
+//   }
+
+//   // Method: has
+//   has(value) {
+//     if (this.members.indexOf(value) !== -1) {
+//       return true;
+//     }
+//     return false;
+//   }
+
+//   // Method: add
+//   add(value) {
+//     if (this.members.indexOf(value) !== -1) {
+//       this.members.push(value);
+//     }
+//   }
+
+//   // Method: delete
+//   delete(value) {
+//     let index = this.members.indexOf(value);
+//     if (index !== -1) {
+//       this.members.splice(index, 1);
+//     }
+//   }
+
+//   // Static method
+//   static from(collection) {
+//     let group = new Group();
+//     for (let element of collection) {
+//       if (group.members.indexOf(element) === -1) {
+//         group.members.push(element);
+//       }
+//     }
+//     return group;
+//   }
+// }
+// ---------------------------------------------------
+
+/**
+ * SOLUTION FROM THE AUTHOR
+//  */
+
 class Group {
+  // Constructor: creates an empty group
   constructor() {
-    // return [];
+    this.members = [];
   }
 
-  has(value) {
-    if (value in this) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
+  // Method: adds a value to the group (but only if it isn't a member)
   add(value) {
-    if (this.indexOf(value) !== -1) {
-      this.push(value);
+    if (!this.has(value)) {
+      this.members.push(value);
     }
+  }
+
+  // Method: removes its argument from the group (it it was a member)
+  delete(value) {
+    this.members = this.members.filter((v) => v !== value);
+  }
+
+  // Method: returns a Boolean value indicating whether its argument is a member of the group
+  has(value) {
+    return this.members.includes(value);
+  }
+
+  // Static method: takes an iterable object as argument and creates a group that contains all
+  // the values produced by iterating over it.
+  static from(collection) {
+    let group = new Group();
+    for (let element of collection) {
+      group.add(element);
+    }
+    return group;
   }
 }
 
-let group = new Group();
+// ---------------------------------------------------------------
 
-group.add('Alex');
+// Testing
+let group = Group.from([10, 20]);
+
+console.log(group);
+
+console.log(group.has(20));
+// -> true
+console.log(group.has(30));
+// -> false
+
+console.log(group);
+// -> Group {members: Array(2)}
+group.add(20);
+console.log(group);
+// -> Group {members: Array(2)}
+
+console.log(group.has(10));
+// -> true
+group.delete(10);
+console.log(group.has(10));
+// -> false

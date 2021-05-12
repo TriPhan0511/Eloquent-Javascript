@@ -184,10 +184,65 @@
  * Make the Group class from the previous exercise iterable.
  */
 
+class Group {
+  constructor() {
+    this.members = [];
+  }
+
+  add(value) {
+    if (!this.has(value)) {
+      this.members.push(value);
+    }
+  }
+
+  delete(value) {
+    this.members = this.members.filter((v) => v !== value);
+  }
+
+  has(value) {
+    return this.members.includes(value);
+  }
+
+  static from(collection) {
+    let group = new Group();
+    for (let element of collection) {
+      group.add(element);
+    }
+    return group;
+  }
+
+  // NOTE
+  [Symbol.iterator]() {
+    return new GroupIterator(this);
+  }
+}
+
+class GroupIterator {
+  constructor(group) {
+    this.group = group;
+    this.position = 0;
+  }
+
+  next() {
+    if (this.position >= this.group.members.length) {
+      return { done: true };
+    } else {
+      let result = { value: this.group.members[this.position], done: false };
+      this.position++;
+      return result;
+    }
+  }
+}
+
+// Testing
+for (let value of Group.from(['a', 'b', 'c'])) {
+  console.log(value);
+}
+
 // ------------------------------------------------------------------------------------
 
 /**
- * BORROWING A METHOD
+ * EXERCISE 4: BORROWING A METHOD
  */
 /**
  * Earlier in the chapter I mentioned that an object's hasOwnProperty can be used as
@@ -200,10 +255,10 @@
  * property by that name?
  */
 
-let map = { firstName: 'Tri', hasOwnProperty: true };
+// let map = { firstName: 'Tri', hasOwnProperty: true };
 
-// console.log(map.hasOwnProperty());
-console.log(Object.prototype.hasOwnProperty.call(map, 'lastName'));
-// false
-console.log(Object.prototype.hasOwnProperty.call(map, 'hasOwnProperty'));
-// true
+// // console.log(map.hasOwnProperty());
+// console.log(Object.prototype.hasOwnProperty.call(map, 'lastName'));
+// // false
+// console.log(Object.prototype.hasOwnProperty.call(map, 'hasOwnProperty'));
+// // true

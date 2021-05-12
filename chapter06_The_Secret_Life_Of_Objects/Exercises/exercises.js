@@ -184,39 +184,6 @@
  * Make the Group class from the previous exercise iterable.
  */
 
-// let okIterator = 'OK'[Symbol.iterator]();
-
-// console.log(okIterator.next());
-// // -> {value: "O", done: false}
-
-// console.log(okIterator.next());
-// // -> {value: "K", done: false}
-
-// console.log(okIterator.next());
-// // -> {value: undefined, done: true}
-
-// let obj = okIterator.next();
-// while (!obj.done) {
-//   console.log(obj.value);
-//   obj = obj.next();
-// }
-
-// let okIterator = 'OK'[Symbol.iterator]();
-
-// let obj = okIterator.next();
-// while (!obj.done) {
-//   console.log(obj.value);
-//   obj = okIterator.next();
-// }
-
-// let arr = [1, 2, 3, 4, 5];
-// let arrIterator = arr[Symbol.iterator](); // NOTE
-// let obj = arrIterator.next();
-
-// while (!obj.done) {
-//   console.log(obj.value);
-//   obj = arrIterator.next();
-// }
 // ------------------------------------------------------------------------------------
 
 /**
@@ -233,19 +200,10 @@
  * property by that name?
  */
 
-class Chicken {
-  constructor(type) {
-    this.type = type;
-    this.hasOwnProperty = 1000;
-  }
+let map = { firstName: 'Tri', hasOwnProperty: true };
 
-  sayHello(whom) {
-    console.log(`The ${this.type} chick says hello to ${whom}`);
-  }
-}
-
-let whiteChicken = new Chicken('white');
-
-console.log(whiteChicken.hasOwnProperty('type'));
+// console.log(map.hasOwnProperty());
+console.log(Object.prototype.hasOwnProperty.call(map, 'lastName'));
+// false
+console.log(Object.prototype.hasOwnProperty.call(map, 'hasOwnProperty'));
 // true
-console.log(whiteChicken.hasOwnProperty);

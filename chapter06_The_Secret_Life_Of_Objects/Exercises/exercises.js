@@ -117,60 +117,135 @@
  * SOLUTION FROM THE AUTHOR
 //  */
 
-class Group {
-  // Constructor: creates an empty group
-  constructor() {
-    this.members = [];
+// class Group {
+//   // Constructor: creates an empty group
+//   constructor() {
+//     this.members = [];
+//   }
+
+//   // Method: adds a value to the group (but only if it isn't a member)
+//   add(value) {
+//     if (!this.has(value)) {
+//       this.members.push(value);
+//     }
+//   }
+
+//   // Method: removes its argument from the group (it it was a member)
+//   delete(value) {
+//     this.members = this.members.filter((v) => v !== value);
+//   }
+
+//   // Method: returns a Boolean value indicating whether its argument is a member of the group
+//   has(value) {
+//     return this.members.includes(value);
+//   }
+
+//   // Static method: takes an iterable object as argument and creates a group that contains all
+//   // the values produced by iterating over it.
+//   static from(collection) {
+//     let group = new Group();
+//     for (let element of collection) {
+//       group.add(element);
+//     }
+//     return group;
+//   }
+// }
+
+// // ---------------------------------------------------------------
+
+// // Testing
+// let group = Group.from([10, 20]);
+
+// console.log(group);
+
+// console.log(group.has(20));
+// // -> true
+// console.log(group.has(30));
+// // -> false
+
+// console.log(group);
+// // -> Group {members: Array(2)}
+// group.add(20);
+// console.log(group);
+// // -> Group {members: Array(2)}
+
+// console.log(group.has(10));
+// // -> true
+// group.delete(10);
+// console.log(group.has(10));
+// // -> false
+// ------------------------------------------------------------------------------------
+
+/**
+ * EXERCISE 3: ITERABLE GROUPS
+ */
+
+/**
+ * Make the Group class from the previous exercise iterable.
+ */
+
+// let okIterator = 'OK'[Symbol.iterator]();
+
+// console.log(okIterator.next());
+// // -> {value: "O", done: false}
+
+// console.log(okIterator.next());
+// // -> {value: "K", done: false}
+
+// console.log(okIterator.next());
+// // -> {value: undefined, done: true}
+
+// let obj = okIterator.next();
+// while (!obj.done) {
+//   console.log(obj.value);
+//   obj = obj.next();
+// }
+
+// let okIterator = 'OK'[Symbol.iterator]();
+
+// let obj = okIterator.next();
+// while (!obj.done) {
+//   console.log(obj.value);
+//   obj = okIterator.next();
+// }
+
+// let arr = [1, 2, 3, 4, 5];
+// let arrIterator = arr[Symbol.iterator](); // NOTE
+// let obj = arrIterator.next();
+
+// while (!obj.done) {
+//   console.log(obj.value);
+//   obj = arrIterator.next();
+// }
+// ------------------------------------------------------------------------------------
+
+/**
+ * BORROWING A METHOD
+ */
+/**
+ * Earlier in the chapter I mentioned that an object's hasOwnProperty can be used as
+ * a more robust alternative to the in operator when you want ignore the prototype's
+ * properties. But what if you map needs to include the word "hasOwnProperty"? You
+ * won't be able to call that method anymore because the object's own property hide
+ * the method value.
+ *
+ * Can you think of a way to cal hasOwnProperty on an object that has its own
+ * property by that name?
+ */
+
+class Chicken {
+  constructor(type) {
+    this.type = type;
+    this.hasOwnProperty = 1000;
   }
 
-  // Method: adds a value to the group (but only if it isn't a member)
-  add(value) {
-    if (!this.has(value)) {
-      this.members.push(value);
-    }
-  }
-
-  // Method: removes its argument from the group (it it was a member)
-  delete(value) {
-    this.members = this.members.filter((v) => v !== value);
-  }
-
-  // Method: returns a Boolean value indicating whether its argument is a member of the group
-  has(value) {
-    return this.members.includes(value);
-  }
-
-  // Static method: takes an iterable object as argument and creates a group that contains all
-  // the values produced by iterating over it.
-  static from(collection) {
-    let group = new Group();
-    for (let element of collection) {
-      group.add(element);
-    }
-    return group;
+  sayHello(whom) {
+    console.log(`The ${this.type} chick says hello to ${whom}`);
   }
 }
 
-// ---------------------------------------------------------------
+let whiteChicken = new Chicken('white');
 
-// Testing
-let group = Group.from([10, 20]);
-
-console.log(group);
-
-console.log(group.has(20));
-// -> true
-console.log(group.has(30));
-// -> false
-
-console.log(group);
-// -> Group {members: Array(2)}
-group.add(20);
-console.log(group);
-// -> Group {members: Array(2)}
-
-console.log(group.has(10));
-// -> true
-group.delete(10);
-console.log(group.has(10));
-// -> false
+console.log(whiteChicken.hasOwnProperty('type'));
+// true
+console.log(whiteChicken.hasOwnProperty);

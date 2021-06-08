@@ -419,5 +419,302 @@
 // -------------------------------------------------------------------------------------------------------
 
 /**
- * 09.
+ * 09. CHOICE PATTERN
+ */
+
+/**
+ * Sy we want to know whether a piece of text contains not only a number but a number follow by
+ * one of the words pig, cow, or chicken, or any of their plural forms.
+ * We could write three regular expressions and test them in turn, but there is a nicer way.
+ * The pipe character (|) denotes a choice between the pattern to its left and the pattern
+ * to its right. So I can say:
+ */
+
+// let animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
+
+// console.log(animalCount.test('15 pigs'));
+// // true
+// console.log(animalCount.test('15 pigchickens'));
+// // false
+
+/**
+ * Parenthese can be used to limit the part of the pattern that the pipe operator applies to,
+ * and you can put multiple such operators next to each other to express a choice between
+ * more than two alternatives.
+ */
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * 10. THE MECHANICS OF MATCHING
+ */
+
+/**
+ * Conceptually, when you use exec or test, the regular expression engine looks
+ * for a match in your string by trying to match the expression first from the start
+ * of the string, then from the second character, and so on, until it finds a match
+ * or reaches the end of the string. It'll either return the first match that can be
+ * found or fail to find any match at all.
+ *
+ */
+
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * 11. BACKTRACKING
+ */
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * 12. THE REPLACE METHOD
+ */
+
+/**
+ * String values have a replace method that can be used to replace part of the string
+ * with another string.
+ */
+
+// console.log('papa'.replace('p', 'm'));
+// // -> mapa
+
+/**
+ * The first argument can also be a regular expression, in which case the first match of
+ * the regular expression is replaced. When a g option (for global) is added to the
+ * regular expression, all matches in the string will be replaced, not just the first.
+ */
+
+// console.log('Borobudur'.replace(/[ou]/, 'a'));
+// // Barobudur
+// console.log('Borobudur'.replace(/[ou]/g, 'a'));
+// // Barabadar
+
+/**
+ * It would have been sensible if the choice between replacing one match or all matches was made
+ * through an additional argunment to replace or by providing a different method, replaceAll.
+ * But for some unfortunate reason, the choice relies on a property of the regular expression instead.
+ *
+ * The real power of using regular expression with replace comes from the fact that we cab refer to
+ * matched groups in the replacement string.
+ * For example, say we have a big string containing the names of people, one name per line, in
+ * the format Lastname, Firstname. If we want to swap these names and remove the comma to get
+ * Firstname Lastname format, we can use the following code:
+ */
+
+// console.log('Liskov, Barbara\nMcCarthy, John\nWadler, Philip'.replace(/(\w+), (\w+)/g, '$2 $1'));
+// // Barbara Liskov
+// // John McCarthy
+// // Philip Walder
+
+/**
+ * The $1 and $2 in the replacement string refer to the parenthesized groups in the pattern.
+ * $1 is replaced by the text that matched against the first group, $2 by the second, and so on,
+ * up to $9. The whole match can be referred to with $&.
+ *
+ * It is possible to pass a function - rather than a string -  as the second argument to replace.
+ * For each replacement, the function will be called with the matched groups (as well as the whole match)
+ * as arguments, and its return value will be inserted into the new string.
+ *
+ * Here's a small example:
+ */
+
+// let s = 'the cia and fbi';
+// console.log(s.replace(/\b(cia|fbi)\b/g, (str) => str.toUpperCase()));
+// // the CIA and FBI
+
+/**
+ * Here's a more interesting one:
+ */
+
+// let stock = '1 lemon, 2 cabbages, and 101 eggs';
+
+// function minusOne(match, amount, unit) {
+//   amount = Number(amount) - 1;
+//   if (amount === 1) {
+//     unit = unit.slice(0, unit.length - 1); // only one left, remove the 's'
+//   } else if (amount === 0) {
+//     amount = 'no';
+//   }
+//   return `${amount} ${unit}`;
+// }
+
+// console.log(stock.replace(/(\d+) (\w+)/g, minusOne));
+// // no lemon, 1 cabbage, and 100 eggs
+
+/**
+ * This takes a string, finds all occurences of a number followed by an alphanumeric word,
+ * and returns a string wherein every such occurence is decremented by one.
+ *
+ * The (\d+) group ends up as the amount argument to the function, and the (\w+) group gets
+ * bound to unit. The function converts amount to a number - which always works since it
+ * matched \d+ - nad make some adjustments in case there is only one or zero left.
+ */
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * 13. GREED
+ */
+
+/**
+ * It is possible to use replace to write a function that removes all comments from a piece
+ * of Javascript code. Here is a first attempt:
+ */
+
+// function stripComments(code) {
+//   return code.replace(/\/\/.*|\/\*[^]*\*\//g, '');
+// }
+
+// console.log(stripComments('1 + /* 2 */3'));
+// // 1 + 3
+// console.log(stripComments('1 + /*2*/3'));
+// // 1 + 3
+// console.log(stripComments('x = 10;// ten!'));
+// // x = 10;
+// console.log(stripComments('1 /* a */+/* b */ 1'));
+// // 1 1
+
+/**
+ * The part before the or operator matches two slash characters followed by any number of
+ * non-newline characters. The part for multiple comments is more involved.
+ * We use [^] (any character that is not in the empty set of characters) as a way to match
+ * any character. We cannot just use a period here because block comments can continue on
+ * a new line, and the period character does not match newline characters.
+ *
+ * But the output for the last line appears to have gone wrong. Why?
+ *
+ * The [^]* part of the expression will first match as much as it can.
+ */
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * 14. DYNAMICALLY CREATING REGEXP OBJECTS
+ */
+
+/**
+ * There are cases where you might not know the exact pattern you need to match against
+ * when you are writing your code. Say you want to look for the user's name in a piece of text and
+ * and enclose it in underscore characters to make it stand out. Since you will know the name only
+ * once the program is actually running, you can't use the slash-based notation.
+ *
+ * But you can build up a string and use the RegExp constructor on that. Here's an example:
+ */
+
+// let name = 'harry';
+// let text = 'Harry is a suspicious character.';
+// let regexp = new RegExp('\\b(' + name + ')\\b', 'gi');
+// console.log(text.replace(regexp, '_$1_'));
+// // -> _Harry_ is a suspicious character.
+
+/**
+ * When creating the \b boundary markers, we have to use two back slashes because we are
+ * writing them in a normal string, not a slash-enclosed regular expression. The second
+ * argument to the RegExp constructor contains the options for the regular expression -
+ * in this case, "gi" for global and case insensitive.
+ *
+ * But what if the name is "dea+hl[]rd" because our user is a nerdy teenager?
+ * That would result in a nonsensical regular expression that won't actually match
+ * the user's name.
+ *
+ * To work around this, we can add backslashes before any character that has a special meaning.
+ */
+
+// let name = 'dea+hl[]rd';
+// let text = 'This dea+hl[]rd guy is super annoying';
+// let escaped = name.replace(//g)
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * 15. THE SEARCH METHOD
+ */
+
+/**
+ * The indexOf method on strings cannot be called with a regular expression. But there is another method,
+ * search, that does expect a regular expression. Like indexOf, it returns the first index on which
+ * the expression was found, or -1 when it wasn't found.
+ */
+
+// console.log('  word'.search(/\S/));
+// // 2
+// console.log('  '.search(/\S/));
+// // -1
+
+/**
+ * Unfortunately, there is no way to indicate that the match should start at a given offset
+ * (like we can with the second argument to indexOf), which would often be useful.
+ */
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * 16. THE LASTINDEX PROPERTY
+ */
+
+/**
+ * The exec method similarly does not provide a convenient way to start searching  from a given position
+ * in the string. But is does provide an inconvenient way.
+ *
+ * Regular expression objects has properties. One such property is source, which contains the string that
+ * expression was created from. Another property is lastIndex, which controls, in some limited circumstances,
+ * where the next match will start.
+ *
+ * Those circumstances are that the regular expression must have the global (g) or sticky (y) option enabled,
+ *
+ */
+
+// let re = /\d{1,2}-\d{1,2}/;
+// console.log(re.exec('05-11-1984'));
+// // ["05-11", index: 0, input: "05-11-1984", groups: undefined]
+// let match = re.exec('05-11-1984');
+// // console.log(match.source);
+// console.log(match.input);
+// // 05-11-1984
+// console.log(match.lastIndex);
+
+// -------------------------------------------------------------------------------------------------------
+
+/**
+ * SUMMARY
+ */
+/**
+ * Regular expressions are objects that represent patterns in strings. They use their own language
+ * to express these patterns.
+ */
+
+//  /abc/     A sequence of characters
+//  /[abc]/   Any character from a set of characters
+//  /[^abc]/  Any character not in a set of characters
+//  /[0-9]/   Any character in a range of characters
+//  /x+/      One or more occurences of the pattern x
+//  /x+?/     One or more occurences, nongreedy
+//  /x*/      Zero or more occurences
+//  /x?/      Zero or one occurence
+//  /x{2,4}/  Two to four occurences
+//  /(abc)/   A group
+//  /a|b|c/   Any one of several patterns
+//  /\d/      Any digit character
+//  /\w/      A alphanumeric character ("word character")
+//  /\s/      A whitespace character
+//  /./       Any character except newlines
+//  /\b/      A word boundary
+//  /^/       Start of input
+//  /$/       End of input
+
+/**
+ * A regular expression has a method testto test whether a given string matches it. It also has a
+ * method exec that, when a match is found, returns an array containing all matched groups. Such
+ * an array has an index property that indicates where the match started.
+ */
+
+/**
+ * Strings have a match method to match them against a regular expression and a search method to
+ * search for one, returning only the starting position of the match. Their replace method can
+ * replace matches of pattern with a replacement string or function.
+ */
+
+/**
+ * Regular expression can have options, which are written after the closing slash.
+ * The i option makes the match case insensitive.
+ * The g option makes the expression global, which, among other things, causes the replace method
+ * to replace all instances instead of just the first.
+ * The y option makes it sticky, which means that it will not search ahead and skip part of the string
+ * when looking for a match.
+ * The u option turns on Unicode mode, which fixes a number of problems around handling the characters
+ * that take up two code units.
  */

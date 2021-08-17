@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attributes</title>
+  </head>
+  <body>
+    <p data-classified="secret">The launch code is 000000.</p>
+    <p data-classified="unclassified">I have two feet.</p>
+
+    <script>
+      const paras = document.querySelectorAll('p');
+      paras.forEach((para) => {
+        if (para.getAttribute('data-classified') === 'secret') {
+          para.remove();
+        }
+      });
+    </script>
+  </body>
+</html>

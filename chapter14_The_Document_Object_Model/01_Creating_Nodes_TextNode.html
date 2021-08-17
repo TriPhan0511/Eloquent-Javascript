@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creating Text Nodes</title>
+  </head>
+  <body>
+    <button>Change</button>
+    <p>The <img src="img.cat.png" alt="Cat" /> in the <img src="img/hat.png" alt="Hat" />.</p>
+
+    <script>
+      const images = document.querySelectorAll('img');
+      const button = document.querySelector('button');
+      function replaceImages() {
+        // for (const img of images) {
+        //   if (img.alt) {
+        //     const textNode = document.createTextNode(img.alt);
+        //     img.parentNode.replaceChild(textNode, img);
+        //   }
+        // }
+
+        // for (let i = images.length - 1; i >= 0; i--) {
+        //   const img = images[i];
+        //   if (img.alt) {
+        //     const text = document.createTextNode(img.alt);
+        //     img.parentNode.replaceChild(text, img);
+        //   }
+        // }
+
+        // Another way:
+        // Convert the collection of nodes to a real array (solid colelction, opposed to a live one)
+        const array = Array.from(images);
+        array.map((img) => {
+          const text = document.createTextNode(img.alt);
+          img.parentNode.replaceChild(text, img);
+        });
+      }
+      button.addEventListener('click', () => {
+        replaceImages();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <p>Drag the below bar to make its width wider or narrower</p>
+    <div style="background-color: coral; width: 100px; height: 20px"></div>
+
+    <script>
+      /* Solution 1*/
+
+      // let lastX;
+      // const bar = document.querySelector('div');
+
+      // bar.addEventListener('mousedown', (e) => {
+      //   if (e.button === 0) {
+      //     lastX = e.clientX;
+      //     window.addEventListener('mousemove', moved);
+      //     e.preventDefault(); // Prevent selection
+      //   }
+      // });
+
+      // function moved(e) {
+      //   if (e.buttons === 0) {
+      //     window.removeEventListener('mousemove', moved);
+      //   } else {
+      //     const dist = e.clientX - lastX;
+      //     const newWidth = Math.max(10, bar.offsetWidth + dist);
+      //     bar.style.width = `${newWidth}px`;
+      //     lastX = e.clientX;
+      //   }
+      // }
+      // -----------------------------------------------------------------------
+
+      /* Another solution: Use closure */
+
+      // Get the reserence to the bar
+      const bar = document.querySelector('div');
+      // Adds the dragBar to the bar's mousedown handler
+      bar.addEventListener('mousedown', dragBar);
+
+      // Defines a function that handle the mousedown event on the bar element
+      function dragBar(e) {
+        let lastX;
+        const bar = this;
+        if (e.button === 0) {
+          lastX = e.clientX;
+          window.addEventListener('mousemove', moved);
+          e.preventDefault();
+        }
+
+        function moved(e2) {
+          if (e2.buttons === 0) {
+            window.removeEventListener('mousemove', moved);
+          } else {
+            const dist = e2.clientX - lastX;
+            const newWidth = Math.max(10, bar.offsetWidth + dist);
+            bar.style.width = `${newWidth}px`;
+            lastX = e2.clientX;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
